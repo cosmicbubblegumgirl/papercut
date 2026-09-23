@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0b1230">
 <meta name="description" content="PaperCut turns complicated paperwork into simple, trackable next steps.">
 <title>PaperCut | Cut through the fine print</title>
-<link rel="manifest" href="./manifest.webmanifest">
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" type="image/svg+xml" href="./icon.svg">
 <style>
 :root{color-scheme:dark;--night:#0b1230;--deep:#101a3c;--sheet:#f8f8fc;--ink:#19203a;--muted:#9aa7c8;--purple:#8f80ff;--pink:#ff81b8;--mint:#65dacc;--line:#364067;--shadow:0 24px 90px #0004}
 *{box-sizing:border-box}
@@ -146,6 +146,7 @@ $("#process").onclick=async function(){if(busy)return;busy=true;var b=this;b.dis
 $("#refresh").onclick=function(){refresh().catch(function(e){report("#workspace-message",e.message,true);});};
 $("#delete").onclick=async function(){if(!active)return;if(!demo&&active.id){if(!confirm("Delete this saved roadmap?"))return;await api("/documents/"+encodeURIComponent(active.id),{method:"DELETE"});await refresh();}active=null;$("#roadmap").classList.add("hidden");report("#workspace-message",demo?"Sample closed.":"Roadmap deleted.",false);};
 $("#accessibility").onclick=function(){document.body.classList.toggle("big");document.body.classList.toggle("contrast");};
+if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(function(){});
 if(server&&token){api("/auth/me").then(function(r){user=r.user;applyAccount();return refresh();}).catch(function(){token="";localStorage.removeItem("papercut_token");});}applyAccount();
 </script>
 </body>
