@@ -1,0 +1,13 @@
+{
+  "name": "papercut",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PaperCut document-to-roadmap platform",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test tests/*.test.js"
+  }
+}
