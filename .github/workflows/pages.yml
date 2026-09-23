@@ -1,0 +1,39 @@
+name: Publish PaperCut
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: papercut-pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    name: Publish website
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out PaperCut
+        uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - name: Publish to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
