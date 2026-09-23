@@ -1,0 +1,11 @@
+{
+  "name": "PaperCut",
+  "short_name": "PaperCut",
+  "description": "Cut through the fine print.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1230",
+  "theme_color": "#0b1230",
+  "icons": []
+}
