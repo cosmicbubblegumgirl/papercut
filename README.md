@@ -4,6 +4,17 @@
 
 A Quantum Cupcake Creation ✦
 
+## Vercel deployment
+
+The website and serverless API are configured for Vercel in `vercel.json`. This is a separate deployment option from GitHub Pages. The `docs/` folder is the static frontend, `api/` contains the serverless endpoints, and `lib/vercel-api.js` connects those endpoints to persistent PostgreSQL storage.
+
+1. Import this repository into a new Vercel project. Keep the project root as `./` and use the repository's `vercel.json` settings. Choose the production deployment when the build succeeds.
+2. In your Vercel project, open the Storage/Marketplace area and connect a Neon Postgres database (or another accessible PostgreSQL database). Set `DATABASE_URL` as a private environment variable for the Production environment. Do not commit the URL to GitHub.
+3. Redeploy after the database integration adds the variable. Visit `/api/health`: `{"service":"papercut","status":"ok","database":true}` confirms that the API can reach storage and its tables exist. A response with `setup_required` means the database has not been connected.
+4. Open your Vercel site. PaperCut automatically uses the API hosted at the same website address. Try registration, sign-in, document processing, reopening a saved roadmap, and signing out.
+
+The Vercel version uses the Neon serverless driver and PostgreSQL, **not** the local SQLite file. The existing `server.js` and `Dockerfile` support a separate long-running Node.js deployment with SQLite and persistent disk. Vercel functions cannot be used as a reliable persistent SQLite file store. The Vercel API reads PDF and DOCX documents and text files up to 3 MB; paste the text of images or older Word files instead. Review security, backups, and rate limiting before inviting users to upload confidential documents. The website preview still works without a configured database, but accounts and saved roadmaps do not.
+
 ## Architecture
 
 - `docs/`: Responsive GitHub Pages frontend. Includes an interactive sample, text-based local preview, and account controls when the backend is connected.
